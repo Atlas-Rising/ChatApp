@@ -8,7 +8,6 @@ var page = {
   page.events();
   },
   styles:function(){
-    ajax.getUsers();
     ajax.getMessageButtons();
     setInterval(ajax.getNewMessageButtons,1000);
   },
@@ -22,7 +21,7 @@ events:function(){
     });
     //event handler Enter button on sign-in page
     $('#enter-sign-in').on('click' ,function(e){
-        page.signIn();
+        ajax.getUsers();
     });
     $('.sign-in').on('keypress',function(e){
       if(e.which === 13){
@@ -88,19 +87,10 @@ events:function(){
 },
   createAccount:function(){
     var data = {
-        username: $('input[name="rusername"]').val(),
-        password: function(){
-            if($('input[name="rpassword"]').val() === $('input[name="rpassword-confirm"]').val()){
-              return $('input[name="rpassword"]').val();
-            }
-
-        },
-        status: false,
+      username: $('input[name="username"]').val(),
+      password: $('input[name="password"]').val(),
     };
     ajax.postUsers(data);
-  },
-  signIn: function(){
-    // ajax.loginUsers();
   },
   //thank you w3 schools
   countDown:function(messageId){

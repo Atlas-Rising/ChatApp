@@ -2,39 +2,7 @@
 var currMessages = [];
 var ajax ={
   urlMessages: "/get-messages",
-  urlUsers:"/get-users",
-  loginUsers:function(){
-    $.ajax({
-      url:ajax.urlUsers,
-      method:'GET',
-      data: ajax.urlUsers,
-      success:function(data){
-        // console.log(data);
-        _.each(data, function(el, idx, arr){
-          console.log(el);
-        if(idx > 0 && $('input[name="rusername"]').val() === el.username){
-          $.ajax({
-            url:ajax.urlUsers + el._id,
-            method:'DELETE',
-            success:function(){
-              console.log('success');
-            }
-          });
-        }
-        if($('input[name="username"]').val() === el.username && $('input[name="password"]').val() === el.password){
-          $('.paywall').removeClass('display-block');
-          $('.paywall').addClass('display-none');
-          $('.container.main').removeClass('display-none');
-        }
-        else{
-        }
-      });
-      },
-      failure:function(user){
-        consle.log(user +":did not load");
-      }
-    });
-  },
+  urlUsers: "/get-users",
   getUsers:function(){
     $.ajax({
       url:ajax.urlUsers,
@@ -129,10 +97,9 @@ var ajax ={
   postUsers:function(user){
     $.ajax({
       url:ajax.urlUsers,
-      method:'POST',
+      method:'GET',
       data: user,
-      success:function(user){
-        ajax.getUsers();
+      success:function(data){
       },
       failure:function(data){
         console.log("You are a failure" + data);
@@ -200,14 +167,11 @@ var ajax ={
     var selector = "." + selectorName;
     var tmpl = _.template(templates.users);
     console.log("printTemplate");
-    $('.users').html('');
     $(selector).append(tmpl(data));
     if(data.username === localStorage['recipient']){
       var currRecipientSelector = "#"+data.username;
       $(currRecipientSelector).css("color","red");
     }
-
-
   },
   printMessageButton:function(data){
     var tmpl = _.template(templates.newMessage);
@@ -217,5 +181,4 @@ var ajax ={
       var tmpl = _.template(templates.messageParagraph);
       $('.message-text-box').append(tmpl(data));
     },
-
 };
